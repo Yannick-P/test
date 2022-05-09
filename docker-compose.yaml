@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  auth:
+    image: node:alpine
+    build: ./chat-base-app/authAPI
+    ports:
+      - "100:3000"
+
+  chat:
+    image: node:alpine
+    build: ./chat-base-app/chatAPI
+    ports:
+      - "110:3000"
+      
+  webhtml:
+    image: nginx:alpine
+    volumes: 
+     - ./chat-base-app/frontend/index.html:/usr/share/nginx/html/index.html
+      
+  nginx:
+    image: nginx:alpine
+    volumes: 
+     - ./chat-base-app/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:5000"
